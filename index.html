@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שגיא נפתלי | אימון כושר אישי</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Heebo', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
+        .hero-bg {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1950&q=80');
+            background-size: cover; background-position: center;
+        }
+        .accent-color { color: #fbbf24; }
+        .bg-accent { background-color: #fbbf24; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <nav class="fixed w-full z-50 bg-black/90 text-white py-4 px-6 flex justify-between items-center">
+        <div class="text-2xl font-black tracking-tighter">שגיא<span class="accent-color">נפתלי</span></div>
+        <div class="hidden md:flex gap-8 font-medium text-sm">
+            <a href="#home" class="hover:text-amber-400 transition">בית</a>
+            <a href="#about" class="hover:text-amber-400 transition">אודות</a>
+            <a href="#contact" class="hover:text-amber-400 transition">צור קשר</a>
+        </div>
+        <a href="tel:054-629-2677" class="bg-accent text-black px-5 py-2 rounded-full font-bold text-xs hover:scale-105 transition">התקשר עכשיו</a>
+    </nav>
+
+    <section id="home" class="hero-bg h-screen flex flex-col justify-center items-center text-center text-white px-4">
+        <div data-aos="fade-up" data-aos-duration="1000">
+            <h1 class="text-5xl md:text-7xl font-black mb-6 =">הגיע הזמן לגרסה <span class="accent-color">הטובה ביותר</span> שלך</h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-2xl font-light">אימוני כושר אישיים, ליווי תזונתי ומעטפת מקצועית ביבנה.</p>
+            <a href="#contact" class="bg-accent text-black px-8 py-4 rounded-md font-bold text-lg hover:bg-amber-500 transition shadow-lg inline-block">שיחת ייעוץ חינם</a>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+        <div data-aos="fade-left" data-aos-duration="1200">
+            <img src="https://i.postimg.cc/s2qXw5qT/Whats-App-Image-2026-01-05-at-21-19-29.jpg" alt="שגיא נפתלי" class="rounded-2xl shadow-2xl">
+        </div>
+        <div data-aos="fade-right" data-aos-duration="1200">
+            <h2 class="text-4xl font-black mb-6 underline decoration-amber-400 underline-offset-8">נעים מאוד, <span class="accent-color">שגיא נפתלי</span></h2>
+            <p class="text-lg text-gray-600 mb-6 leading-relaxed">אני מאמין שכושר הוא לא רק עבודה בחדר הכושר, אלא דרך חיים. המטרה שלי היא להעניק לך את הכלים המקצועיים ביותר.</p>
+            <ul class="space-y-4 font-bold">
+                <li class="flex items-center gap-3"><span class="bg-accent p-1 rounded-full text-[10px]">✓</span> תוכנית אימונים מבוססת מדע</li>
+                <li class="flex items-center gap-3"><span class="bg-accent p-1 rounded-full text-[10px]">✓</span> ליווי תזונתי צמוד</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 px-6 bg-gray-100">
+        <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row" data-aos="zoom-in" data-aos-duration="800">
+            <div class="bg-black text-white p-12 md:w-1/3 text-right">
+                <h2 class="text-3xl font-black mb-6 accent-color">צור קשר</h2>
+                <div class="space-y-4">
+                    <p>📍 יבנה</p>
+                    <p dir="ltr">📞 054-629-2677</p>
+                </div>
+            </div>
+            <div class="p-12 md:w-2/3 space-y-4">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <input type="text" id="name" placeholder="שם מלא" class="w-full p-4 bg-gray-50 border rounded-lg outline-none focus:ring-2 ring-amber-400">
+                    <input type="tel" id="phone" placeholder="טלפון" class="w-full p-4 bg-gray-50 border rounded-lg outline-none focus:ring-2 ring-amber-400">
+                </div>
+                <textarea id="goal" placeholder="מה המטרה שלך?" rows="3" class="w-full p-4 bg-gray-50 border rounded-lg outline-none focus:ring-2 ring-amber-400"></textarea>
+                <button onclick="sendWhatsApp()" class="w-full bg-black text-white font-bold py-4 rounded-lg hover:bg-gray-800 transition active:scale-95">
+                    שלח פנייה בוואטסאפ
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center text-gray-400 text-sm">
+        © 2024 שגיא נפתלי - מאמן כושר אישי
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // הפעלת האנימציות
+        AOS.init({
+            once: true // האנימציה תקרה רק פעם אחת בגלילה הראשונה
+        });
+
+        function sendWhatsApp() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const goal = document.getElementById('goal').value;
+            const myNumber = "972546292677"; 
+
+            if (!name || !phone) {
+                alert("אנא מלא שם וטלפון");
+                return;
+            }
+
+            const message = `היי שגיא, ראיתי את האתר שלך ואני רוצה להתחיל!%0A%0A*שם:* ${name}%0A*טלפון:* ${phone}%0A*מטרה:* ${goal}`;
+            window.open(`https://wa.me/${myNumber}?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>
