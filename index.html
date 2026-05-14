@@ -3,101 +3,324 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>שגיא נפתלי | אימון כושר אישי</title>
+    <title>שגיא נפתלי | Elite Personal Training</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;900&display=swap" rel="stylesheet">
-        <link rel="icon" type="image/png" href="https://i.postimg.cc/PfZ4b493/Untitled-design-(2).png">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;300;400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <style>
-        body { font-family: 'Heebo', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
-        .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1950&q=80');
-            background-size: cover; background-position: center;
+        :root {
+            --premium-gold: #f59e0b;
+            --premium-black: #0a0a0a;
+            --premium-gray: #1a1a1a;
         }
-        .accent-color { color: #fbbf24; }
-        .bg-accent { background-color: #fbbf24; }
+
+        body { 
+            font-family: 'Heebo', sans-serif; 
+            background-color: var(--premium-black);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* אפקט פרלקס להירו */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-video-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), 
+                        url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transform: scale(1.1);
+        }
+
+        /* אפקט זכוכית (Glassmorphism) */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .accent-gradient {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* כפתור פרימיום מנצנץ */
+        .btn-premium {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0; right: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-premium:hover::before {
+            right: 100%;
+        }
+
+        /* עיגול תאורה שעוקב אחרי העכבר */
+        .glow-dot {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+
+        .card-service:hover {
+            transform: translateY(-10px);
+            border-color: var(--premium-gold);
+        }
+
+        input, textarea {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body>
 
-    <nav class="fixed w-full z-50 bg-black/90 text-white py-4 px-6 flex justify-between items-center">
-        <div class="text-2xl font-black tracking-tighter">שגיא<span class="accent-color">נפתלי</span></div>
-        <div class="hidden md:flex gap-8 font-medium text-sm">
-            <a href="#home" class="hover:text-amber-400 transition">בית</a>
-            <a href="#about" class="hover:text-amber-400 transition">אודות</a>
-            <a href="#contact" class="hover:text-amber-400 transition">צור קשר</a>
+    <div class="glow-dot" id="glow"></div>
+
+    <nav class="fixed w-full z-50 py-6 px-10 flex justify-between items-center transition-all duration-500" id="navbar">
+        <div class="text-3xl font-black tracking-tighter opacity-0" id="logo">
+            שגיא<span class="text-amber-500">נפתלי</span>
         </div>
-        <a href="tel:054-629-2677" class="bg-accent text-black px-5 py-2 rounded-full font-bold text-xs hover:scale-105 transition">התקשר עכשיו</a>
+        <div class="hidden md:flex gap-10 font-light text-sm tracking-widest">
+            <a href="#home" class="hover:text-amber-500 transition-colors">בית</a>
+            <a href="#about" class="hover:text-amber-500 transition-colors">החזון</a>
+            <a href="#services" class="hover:text-amber-500 transition-colors">התוכנית</a>
+            <a href="#contact" class="hover:text-amber-500 transition-colors">להרשמה</a>
+        </div>
+        <a href="tel:054-629-2677" class="btn-premium bg-amber-500 text-black px-8 py-3 rounded-full font-bold text-xs tracking-tighter hover:scale-105 active:scale-95 transition-all shadow-xl shadow-amber-500/20">
+            התקשר עכשיו
+        </a>
     </nav>
 
-    <section id="home" class="hero-bg h-screen flex flex-col justify-center items-center text-center text-white px-4">
-        <div data-aos="fade-up" data-aos-duration="1000">
-            <h1 class="text-5xl md:text-7xl font-black mb-6 =">הגיע הזמן לגרסה <span class="accent-color">הטובה ביותר</span> שלך</h1>
-            <p class="text-xl md:text-2xl mb-10 max-w-2xl font-light">אימוני כושר אישיים, ליווי תזונתי ומעטפת מקצועית ביבנה.</p>
-            <a href="#contact" class="bg-accent text-black px-8 py-4 rounded-md font-bold text-lg hover:bg-amber-500 transition shadow-lg inline-block">שיחת ייעוץ חינם</a>
-        </div>
-    </section>
-
-    <section id="about" class="py-24 container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-        <div data-aos="fade-left" data-aos-duration="1200">
-            <img src="https://i.postimg.cc/s2qXw5qT/Whats-App-Image-2026-01-05-at-21-19-29.jpg" alt="שגיא נפתלי" class="rounded-2xl shadow-2xl">
-        </div>
-        <div data-aos="fade-right" data-aos-duration="1200">
-            <h2 class="text-4xl font-black mb-6 underline decoration-amber-400 underline-offset-8">נעים מאוד, <span class="accent-color">שגיא נפתלי</span></h2>
-            <p class="text-lg text-gray-600 mb-6 leading-relaxed">אני מאמין שכושר הוא לא רק עבודה בחדר הכושר, אלא דרך חיים. המטרה שלי היא להעניק לך את הכלים המקצועיים ביותר.</p>
-            <ul class="space-y-4 font-bold">
-                <li class="flex items-center gap-3"><span class="bg-accent p-1 rounded-full text-[10px]">✓</span> תוכנית אימונים מבוססת מדע</li>
-                <li class="flex items-center gap-3"><span class="bg-accent p-1 rounded-full text-[10px]">✓</span> ליווי תזונתי צמוד</li>
-            </ul>
-        </div>
-    </section>
-
-    <section id="contact" class="py-24 px-6 bg-gray-100">
-        <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row" data-aos="zoom-in" data-aos-duration="800">
-            <div class="bg-black text-white p-12 md:w-1/3 text-right">
-                <h2 class="text-3xl font-black mb-6 accent-color">צור קשר</h2>
-                <div class="space-y-4">
-                    <p>📍 יבנה</p>
-                    <p dir="ltr">📞 054-629-2677</p>
-                </div>
-            </div>
-            <div class="p-12 md:w-2/3 space-y-4">
-                <div class="grid md:grid-cols-2 gap-4">
-                    <input type="text" id="name" placeholder="שם מלא" class="w-full p-4 bg-gray-50 border rounded-lg outline-none focus:ring-2 ring-amber-400">
-                    <input type="tel" id="phone" placeholder="טלפון" class="w-full p-4 bg-gray-50 border rounded-lg outline-none focus:ring-2 ring-amber-400">
-                </div>
-                <textarea id="goal" placeholder="מה המטרה שלך?" rows="3" class="w-full p-4 bg-gray-50 border rounded-lg outline-none focus:ring-2 ring-amber-400"></textarea>
-                <button onclick="sendWhatsApp()" class="w-full bg-black text-white font-bold py-4 rounded-lg hover:bg-gray-800 transition active:scale-95">
-                    שלח פנייה בוואטסאפ
-                </button>
+    <section id="home" class="hero-section">
+        <div class="hero-video-bg" id="hero-bg"></div>
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h4 class="text-amber-500 font-bold tracking-[0.3em] uppercase mb-4 opacity-0" id="hero-sub">אמנות הכושר והמנטליות</h4>
+            <h1 class="text-6xl md:text-9xl font-black mb-8 leading-none opacity-0 tracking-tight" id="hero-title">
+                תפרוץ את <br> <span class="accent-gradient tracking-tighter">גבולות היכולת</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-12 max-w-2xl mx-auto font-light text-gray-400 opacity-0" id="hero-p">
+                אימון אישי ברמה הגבוהה ביותר. מעטפת פרימיום למתאמנים שרוצים תוצאות קיצוניות ללא פשרות.
+            </p>
+            <div class="opacity-0" id="hero-btn">
+                <a href="#contact" class="btn-premium bg-white text-black px-12 py-5 rounded-full font-extrabold text-lg transition-all inline-block hover:shadow-2xl">
+                    התחל את המהפך שלך
+                </a>
             </div>
         </div>
+        
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-40">
+            <i class="fa-solid fa-chevron-down text-2xl"></i>
+        </div>
     </section>
 
-    <footer class="py-8 text-center text-gray-400 text-sm">
-        © 2024 שגיא נפתלי - מאמן כושר אישי
+    <section class="py-20 bg-black relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center max-w-4xl mx-auto">
+                <div class="stat-item">
+                    <div class="text-4xl md:text-5xl font-black text-amber-500 mb-2">100%</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-500">התאמה אישית מלאה</div>
+                </div>
+                <div class="stat-item">
+                    <div class="text-4xl md:text-5xl font-black text-amber-500 mb-2">100%</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-500">מחויבות מלאה לתוצאה</div>
+                </div>
+                <div class="stat-item">
+                    <div class="text-4xl md:text-5xl font-black text-amber-500 mb-2">24/7</div>
+                    <div class="text-xs uppercase tracking-widest text-gray-500">זמינות וליווי בוואטסאפ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-32 relative overflow-hidden">
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
+            <div class="relative group">
+                <div class="absolute -inset-4 bg-amber-500/20 rounded-2xl blur-2xl group-hover:bg-amber-500/30 transition-all"></div>
+                <img src="https://i.postimg.cc/s2qXw5qT/Whats-App-Image-2026-01-05-at-21-19-29.jpg" alt="שגיא נפתלי" class="relative rounded-2xl z-10 grayscale hover:grayscale-0 transition duration-700 shadow-2xl w-full">
+            </div>
+            <div class="space-y-8 reveal">
+                <h2 class="text-5xl md:text-6xl font-black tracking-tight">החזון של <br><span class="text-amber-500">שגיא נפתלי</span></h2>
+                <p class="text-xl text-gray-400 font-light leading-relaxed">
+                    במקום שבו הרוב בוחרים לוותר, אנחנו רק מתחילים. אני לא מאמין בקיצורי דרך או בדיאטות כסאח – הגישה שלי משלבת מדע מדויק, תזונה נכונה ופיתוח חוסן מנטלי ומשמעת עצמית שישארו איתך לכל החיים.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-center gap-4 text-lg">
+                        <i class="fa-solid fa-check text-amber-500"></i>
+                        <span>ליווי תזונתי מותאם אישית ומבוסס מדדים</span>
+                    </li>
+                    <li class="flex items-center gap-4 text-lg">
+                        <i class="fa-solid fa-check text-amber-500"></i>
+                        <span>אימונים אישיים 1-על-1 באווירה מקצועית ופרטית</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-32 bg-zinc-950">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-24">
+                <h2 class="text-5xl md:text-6xl font-black mb-6 uppercase italic tracking-tighter">מעטפת <span class="text-amber-500">הפרימיום</span></h2>
+                <p class="text-gray-500 max-w-xl mx-auto">כל מה שאתה צריך כדי להבטיח את השינוי הפיזי והמנטלי שלך.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="card-service glass p-10 rounded-3xl transition-all duration-500 border border-white/5">
+                    <i class="fa-solid fa-dumbbell text-4xl text-amber-500 mb-8"></i>
+                    <h3 class="text-2xl font-bold mb-4">אימון עלית אישי</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">עבודה על טכניקה מושלמת, דחיפת הגבולות שלך והתקדמות שבועית מבוקרת ומותאמת אישית.</p>
+                </div>
+                <div class="card-service glass p-10 rounded-3xl transition-all duration-500 border border-white/5">
+                    <i class="fa-solid fa-utensils text-4xl text-amber-500 mb-8"></i>
+                    <h3 class="text-2xl font-bold mb-4">תוכנית תזונה גמישה</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">בניית תפריט שמתאים לאורח החיים ולסדר היום שלך, ללא הרעבה עצמית ועם דגש על מאכלים שאתה אוהב.</p>
+                </div>
+                <div class="card-service glass p-10 rounded-3xl transition-all duration-500 border border-white/5">
+                    <i class="fa-solid fa-chart-line text-4xl text-amber-500 mb-8"></i>
+                    <h3 class="text-2xl font-bold mb-4">מעקב מדדים ואנליזה</h3>
+                    <p class="text-gray-400 font-light leading-relaxed">שקילות, מדידות היקפים ומעקב אחוזי שומן קבוע כדי לוודא שאנחנו תמיד מתקדמים לעבר היעד.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-32">
+        <div class="container mx-auto px-6">
+            <div class="max-w-5xl mx-auto glass rounded-[3rem] overflow-hidden flex flex-col md:flex-row shadow-2xl border border-white/10">
+                <div class="md:w-1/2 p-16 bg-amber-500 text-black flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-extrabold mb-8 leading-tight tracking-tight">ההחלטה של היום, <br>הגוף של מחר.</h2>
+                        <p class="text-lg font-medium mb-12 opacity-90">מלא את הפרטים עכשיו ונעשה את הצעד הראשון יחד. אל תדחה ליום ראשון הבא.</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span class="font-bold uppercase tracking-widest text-xs">אימונים פרונטליים וליווי אונליין</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <i class="fa-solid fa-phone"></i>
+                            <span class="font-bold uppercase tracking-widest text-xs">054-629-2677</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 p-16 space-y-8 bg-black/40">
+                    <div class="grid grid-cols-1 gap-6">
+                        <input type="text" id="name" placeholder="שם מלא" class="w-full p-5 rounded-2xl outline-none focus:ring-2 ring-amber-500 transition-all font-medium">
+                        <input type="tel" id="phone" placeholder="מספר טלפון" class="w-full p-5 rounded-2xl outline-none focus:ring-2 ring-amber-500 transition-all font-medium text-right">
+                        <textarea id="goal" placeholder="מה המטרה המרכזית שלך? (חיטוב, מסת שריר וכדומה)" rows="4" class="w-full p-5 rounded-2xl outline-none focus:ring-2 ring-amber-500 transition-all font-medium"></textarea>
+                    </div>
+                    <button onclick="sendWhatsApp()" class="btn-premium w-full bg-white text-black font-black py-5 rounded-2xl text-lg hover:bg-amber-500 transition-all flex justify-center items-center gap-2 shadow-lg">
+                        שלח פנייה בוואטסאפ <i class="fa-brands fa-whatsapp"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-10 text-center text-gray-600 text-xs tracking-[0.2em] uppercase">
+        © 2026 שגיא נפתלי - מעטפת אימון פרימיום. כל הזכויות שמורות.
     </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // הפעלת האנימציות
-        AOS.init({
-            once: true // האנימציה תקרה רק פעם אחת בגלילה הראשונה
+        // הפעלת מנוע GSAP לאנימציות חלקות
+        gsap.registerPlugin(ScrollTrigger);
+
+        window.onload = () => {
+            const tl = gsap.timeline();
+
+            tl.to("#logo", { opacity: 1, duration: 1, ease: "power4.out" })
+              .to("#hero-sub", { opacity: 1, y: -20, duration: 1 }, "-=0.5")
+              .to("#hero-title", { opacity: 1, y: -20, duration: 1 }, "-=0.8")
+              .to("#hero-p", { opacity: 1, y: -20, duration: 1 }, "-=0.8")
+              .to("#hero-btn", { opacity: 1, scale: 1.05, duration: 0.8, ease: "back.out" }, "-=0.5");
+
+            // אפקט תנועת רקע בגלילה (Parallax)
+            gsap.to("#hero-bg", {
+                yPercent: 20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#home",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // שינוי תפריט בזמן גלילה
+            ScrollTrigger.create({
+                start: 'top -80',
+                onUpdate: (self) => {
+                    const nav = document.getElementById('navbar');
+                    if(self.direction === 1) nav.classList.add('glass', 'py-4');
+                    else nav.classList.remove('glass', 'py-4');
+                }
+            });
+
+            // כניסת אלמנטים בגלילה בצורה חלקה
+            gsap.utils.toArray('.reveal').forEach(el => {
+                gsap.from(el, {
+                    scrollTrigger: el,
+                    opacity: 0,
+                    y: 50,
+                    duration: 1.2,
+                    ease: "power3.out"
+                });
+            });
+        };
+
+        // עיגול תאורה שעוקב אחרי תנועת העכבר במסך
+        const glow = document.getElementById('glow');
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(glow, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.5,
+                ease: "power2.out"
+            });
         });
 
+        // פונקציית שליחת ההודעה לוואטסאפ
         function sendWhatsApp() {
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const goal = document.getElementById('goal').value;
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const goal = document.getElementById('goal').value.trim();
             const myNumber = "972546292677"; 
 
             if (!name || !phone) {
-                alert("אנא מלא שם וטלפון");
+                alert("אנא מלא את שדות החובה (שם וטלפון)");
                 return;
             }
 
-            const message = `היי שגיא, ראיתי את האתר שלך ואני רוצה להתחיל!%0A%0A*שם:* ${name}%0A*טלפון:* ${phone}%0A*מטרה:* ${goal}`;
+            const message = `היי שגיא, אני רוצה להצטרף לנבחרת הפרימיום שלך!%0A%0A*שם:* ${name}%0A*טלפון:* ${phone}%0A*מטרה:* ${goal ? goal : 'לא צוינה'}`;
             window.open(`https://wa.me/${myNumber}?text=${message}`, '_blank');
         }
     </script>
